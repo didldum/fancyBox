@@ -24,6 +24,7 @@
 			width    : 50,       // thumbnail width
 			height   : 50,       // thumbnail height
 			position : 'bottom', // 'top' or 'bottom'
+            centerFocus: true, // true or false, horizontally center the thumbnail list the focused thumbnail
 			source   : function ( item ) {  // function to obtain the URL of the thumbnail image
 				var href;
 
@@ -114,7 +115,9 @@
 			//Set initial width
 			this.width = this.list.children().eq(0).outerWidth(true);
 
-			this.list.width(this.width * (obj.group.length + 1)).css('left', Math.floor($(window).width() * 0.5 - (obj.index * this.width + this.width * 0.5)));
+            var shift = obj.index;
+            if (!opts.centerFocus) shift = (obj.group.length / 2) ;
+			this.list.width(this.width * (obj.group.length + 1)).css('left', Math.floor($(window).width() * 0.5 - (shift * this.width + this.width * 0.5)));
 		},
 
 		beforeLoad: function (opts, obj) {
@@ -144,6 +147,7 @@
 
 		//Center list
 		onUpdate: function (opts, obj) {
+            if (!opts.centerFocus) return;
 			if (this.list) {
 				this.list.stop(true).animate({
 					'left': Math.floor($(window).width() * 0.5 - (obj.index * this.width + this.width * 0.5))
